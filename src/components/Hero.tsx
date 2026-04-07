@@ -31,8 +31,8 @@ const Hero: React.FC = () => {
     },
     {
       icon: <BarChart className="text-purple-400" size={24} />,
-      title: '海外社媒运营',
-      desc: '专注针对 B2B 获客的社媒矩阵搭建与内容转化策略。',
+      title: '海外社媒精准运营',
+      desc: '专注针对 B2B 获客的社媒矩阵搭建，具备百万级播放量（最高 2.9M+）爆款实操经验。',
     },
     {
       icon: <Cpu className="text-emerald-400" size={24} />,
