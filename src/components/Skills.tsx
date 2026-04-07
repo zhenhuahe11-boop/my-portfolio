@@ -1,11 +1,11 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, type Variants } from 'framer-motion';
 import { TrendingUp, Zap, CheckCircle2 } from 'lucide-react';
 import { skillData } from '../data/skills';
 
 const Skills: React.FC = () => {
   // 容器动画
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -14,7 +14,7 @@ const Skills: React.FC = () => {
   };
 
   // 单个技能标签动画
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { opacity: 0, scale: 0.9 },
     visible: { 
       opacity: 1, 

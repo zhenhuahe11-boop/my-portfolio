@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Github, Linkedin, Mail, Menu, X, Home, Briefcase, Code, User } from 'lucide-react';
+import { Phone, Menu, X, Home, Briefcase, Code, User } from 'lucide-react';
+
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -20,7 +21,7 @@ const Header: React.FC = () => {
     { name: '技能', href: '#skills', icon: <Code size={18} /> },
     { name: '项目', href: '#projects', icon: <Briefcase size={18} /> },
     { name: '经历', href: '#experience', icon: <User size={18} /> },
-    { name: '联系', href: '#contact', icon: <Mail size={18} /> },
+    { name: '联系', href: '#contact', icon: <Phone size={18} /> },
   ];
 
   return (
@@ -57,15 +58,7 @@ const Header: React.FC = () => {
           ))}
         </nav>
 
-        {/* 社交媒体图标 (桌面端) */}
-        <div className="hidden md:flex items-center space-x-4 ml-4">
-          <a href="#" className="text-gray-400 hover:text-white transition-colors">
-            <Github size={20} />
-          </a>
-          <a href="#" className="text-gray-400 hover:text-white transition-colors">
-            <Linkedin size={20} />
-          </a>
-        </div>
+        {/* 社交媒体图标已移除，以保持极简设计 */}
 
         {/* 移动端菜单按钮 */}
         <div className="md:hidden">
@@ -99,13 +92,8 @@ const Header: React.FC = () => {
                   {link.name}
                 </a>
               ))}
-              <div className="flex space-x-6 pt-4 border-t border-zinc-800">
-                <a href="#" className="text-gray-400">
-                  <Github size={24} />
-                </a>
-                <a href="#" className="text-gray-400">
-                  <Linkedin size={24} />
-                </a>
+              <div className="pt-4 border-t border-zinc-800 text-center text-gray-500 text-xs uppercase tracking-widest">
+                Portfolio.AI
               </div>
             </div>
           </motion.div>

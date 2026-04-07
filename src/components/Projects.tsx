@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ExternalLink, Github, ArrowRight } from 'lucide-react';
+import { ExternalLink, ArrowRight } from 'lucide-react';
 import { projectData } from '../data/projects';
 
 const Projects: React.FC = () => {
@@ -77,9 +77,6 @@ const Projects: React.FC = () => {
                     查看详情 <ArrowRight size={18} className="transform group-hover/link:translate-x-1 transition-transform" />
                   </a>
                   <div className="flex gap-3 ml-auto">
-                    <button className="p-2 bg-zinc-800/50 rounded-full text-gray-400 hover:text-white hover:bg-zinc-700 transition-all">
-                      <Github size={20} />
-                    </button>
                     <button className="p-2 bg-zinc-800/50 rounded-full text-gray-400 hover:text-white hover:bg-zinc-700 transition-all">
                       <ExternalLink size={20} />
                     </button>
