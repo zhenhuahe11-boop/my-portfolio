@@ -79,12 +79,12 @@ const Hero: React.FC = () => {
             variants={itemVariants}
             className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20"
           >
-            <button className="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-full font-semibold transition-all transform hover:scale-105 flex items-center gap-2">
+            <a href="#projects" className="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-full font-semibold transition-all transform hover:scale-105 flex items-center gap-2">
               查看我的项目 <ArrowRight size={18} />
-            </button>
-            <button className="px-8 py-4 bg-zinc-800 hover:bg-zinc-700 text-white rounded-full font-semibold transition-all border border-zinc-700 flex items-center gap-2">
+            </a>
+            <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="px-8 py-4 bg-zinc-800 hover:bg-zinc-700 text-white rounded-full font-semibold transition-all border border-zinc-700 flex items-center gap-2">
               获取简历 <Download size={18} />
-            </button>
+            </a>
           </motion.div>
 
           {/* 亮点卡片 (Highlights) */}

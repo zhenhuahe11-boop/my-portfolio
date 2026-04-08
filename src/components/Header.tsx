@@ -41,7 +41,7 @@ const Header: React.FC = () => {
           whileHover={{ scale: 1.05 }}
           className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent cursor-pointer"
         >
-          Portfolio.AI
+          Eric何振华作品集
         </motion.div>
 
         {/* 桌面端导航 */}
