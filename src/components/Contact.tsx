@@ -24,7 +24,7 @@ const Contact: React.FC = () => {
             </h2>
             
             <p className="text-gray-400 text-lg mb-12 max-w-lg mx-auto leading-relaxed">
-              无论你是寻求业务合作，还是想聊聊 AI 开发，欢迎随时拨打或通过手机号添加我的微信。
+              如果您正在寻找具备出海实操与 AI 落地能力的人才，欢迎随时通过电话或微信与我联系，期待能与贵团队沟通交流！
             </p>
 
             <motion.div
@@ -54,7 +54,7 @@ const Contact: React.FC = () => {
             transition={{ delay: 0.5, duration: 1 }}
             className="mt-20 text-gray-600 text-xs uppercase tracking-[0.3em]"
           >
-            Available for worldwide opportunities
+            Open to new job opportunities
           </motion.p>
         </div>
       </div>
