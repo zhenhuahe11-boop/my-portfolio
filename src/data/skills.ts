@@ -26,12 +26,11 @@ export const skillData: SkillCategory[] = [
     title: '技术与 AI 杠杆',
     description: '利用 AI 工具提升开发效率，探索智能体在业务中的落地。',
     skills: [
-      'AI 辅助编程 (Cursor/Copilot)',
+      'AI 辅助编程 (Cursor/Antigravity)',
       'React + TypeScript 开发',
       'Tailwind CSS 响应式布局',
       'AI 智能体部署 (OpenClaw)',
-      'AI 视频/图片内容生成',
-      '自动化流程设计 (n8n/Make)'
+      'AI 视频/图片内容生成'
     ],
   }
 ];

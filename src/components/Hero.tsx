@@ -70,7 +70,7 @@ const Hero: React.FC = () => {
             variants={itemVariants}
             className="text-gray-400 text-lg md:text-xl mb-10 max-w-2xl mx-auto leading-relaxed"
           >
-            24年国际贸易背景，专注 B2B 获客与海外社媒运营。
+            2年国际贸易背景，专注 B2B 获客与海外社媒运营。
             我用 AI 赋能全栈开发，助力品牌在全球市场高效成长。
           </motion.p>
 
