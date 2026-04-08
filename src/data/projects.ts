@@ -9,6 +9,14 @@ export interface Project {
 
 export const projectData: Project[] = [
   {
+    id: 'shine-mango',
+    title: 'Shine Mango (芒果 B2B 出海品牌)',
+    description: '利用 Cursor AI 从 0 到 1 敏捷开发 "Shine Mango" 垂类独立站；并运用 Nano Banana 等前沿 AI 模型，精准产出欧美审美的高端营销海报与产品图。实现从 "极速建站" 到 "AI 视觉闭环" 的海外营销全链路落地。',
+    image: '/shine_mango_v2.png',
+    tags: ['AI Branding', 'Agile Build', 'Visual AI', 'GTM/Tracking'],
+    link: 'https://shinemango.com'
+  },
+  {
     id: 'influencer-viral',
     title: '达人爆款视频及数据',
     description: '成功策划并落地多条达人爆款视频，其中两条单视频播放量突破 150W。通过精准选取垂直领域达人并提供视频脚本指导，实现品效合一。',
@@ -31,14 +39,6 @@ export const projectData: Project[] = [
     image: '/tiktok_case.png',
     tags: ['TikTok Marketing', 'Viral Content', 'GMV Growth', 'Social Commerce'],
     link: '#'
-  },
-  {
-    id: 'shine-mango',
-    title: 'Shine Mango (芒果 B2B 出海品牌)',
-    description: '利用 Cursor AI 从 0 到 1 敏捷开发 "Shine Mango" 垂类独立站；并运用 Nano Banana 等前沿 AI 模型，精准产出欧美审美的高端营销海报与产品图。实现从 "极速建站" 到 "AI 视觉闭环" 的海外营销全链路落地。',
-    image: '/ai_visual_marketing.png',
-    tags: ['AI Branding', 'Agile Build', 'Visual AI', 'GTM/Tracking'],
-    link: 'https://shinemango.com'
   },
   {
     id: 'ai-discovery',
