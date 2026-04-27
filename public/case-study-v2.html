@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DTC Brand Teardown | Eric 何振华</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#0F0F0F;
+  --ink2:#3D3D3D;
+  --ink3:#888;
+  --rule:#E2E2E2;
+  --surface:#F8F7F4;
+  --white:#FFFFFF;
+  --bobbie:#C4476A;
+  --bobbie-light:#FDF0F3;
+  --bobbie-mid:#F5C6D0;
+  --vuori:#0A6EBD;
+  --vuori-light:#EEF6FF;
+  --vuori-mid:#B8D9F5;
+  --ld:#3D8C0F;
+  --ld-light:#F2FAEB;
+  --ld-mid:#C2E49E;
+  --accent:#1A1A1A;
+}
+body{
+  background:var(--surface);
+  color:var(--ink);
+  font-family:'DM Sans',system-ui,sans-serif;
+  line-height:1.6;
+}
+
+/* ── NAV ── */
+.nav{
+  background:var(--white);
+  border-bottom:1px solid var(--rule);
+  padding:0 48px;
+  height:52px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:50;
+}
+.nav-logo{font-family:'DM Mono',monospace;font-size:12px;color:var(--ink2);letter-spacing:.5px}
+.nav-back{font-size:13px;color:var(--ink3);text-decoration:none;display:flex;align-items:center;gap:6px}
+.nav-back:hover{color:var(--ink)}
+.nav-back svg{width:14px;height:14px}
+
+/* ── HERO ── */
+.hero{
+  padding:80px 48px 64px;
+  max-width:1100px;margin:0 auto;
+  display:grid;grid-template-columns:1fr 340px;gap:80px;align-items:end;
+  border-bottom:1px solid var(--rule);
+}
+.hero-kicker{
+  font-family:'DM Mono',monospace;
+  font-size:11px;letter-spacing:2px;color:var(--ink3);
+  text-transform:uppercase;margin-bottom:20px;
+}
+.hero-title{
+  font-family:'DM Serif Display',Georgia,serif;
+  font-size:clamp(2.8rem,5vw,4.5rem);
+  line-height:1.08;letter-spacing:-.02em;
+  color:var(--ink);margin-bottom:20px;
+}
+.hero-title em{font-style:italic;color:var(--ink3)}
+.hero-body{font-size:16px;color:var(--ink2);line-height:1.7;max-width:520px}
+.hero-meta{padding-bottom:8px}
+.hero-meta-row{
+  display:flex;justify-content:space-between;align-items:baseline;
+  padding:14px 0;border-top:1px solid var(--rule);
+  font-size:13px;
+}
+.hero-meta-row:last-child{border-bottom:1px solid var(--rule)}
+.meta-label{color:var(--ink3);font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.5px;text-transform:uppercase}
+.meta-val{font-weight:500;color:var(--ink)}
+
+/* ── BRAND IDENTITY STRIP ── */
+.brand-strip{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  max-width:1100px;margin:0 auto;
+  border-bottom:1px solid var(--rule);
+}
+.brand-col{
+  padding:40px 48px;
+  border-right:1px solid var(--rule);
+  cursor:pointer;
+  transition:background .18s;
+  position:relative;
+}
+.brand-col:last-child{border-right:none}
+.brand-col::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:3px;
+  transform:scaleX(0);transition:transform .2s;
+  transform-origin:left;
+}
+.brand-col.b-bobbie::after{background:var(--bobbie)}
+.brand-col.b-vuori::after{background:var(--vuori)}
+.brand-col.b-ld::after{background:var(--ld)}
+.brand-col.active::after,.brand-col:hover::after{transform:scaleX(1)}
+.brand-col.active.b-bobbie,.brand-col:hover.b-bobbie{background:var(--bobbie-light)}
+.brand-col.active.b-vuori,.brand-col:hover.b-vuori{background:var(--vuori-light)}
+.brand-col.active.b-ld,.brand-col:hover.b-ld{background:var(--ld-light)}
+.brand-num{
+  font-family:'DM Mono',monospace;font-size:11px;
+  letter-spacing:1px;text-transform:uppercase;
+  color:var(--ink3);margin-bottom:10px;
+}
+.brand-name{
+  font-family:'DM Serif Display',Georgia,serif;
+  font-size:1.9rem;letter-spacing:-.02em;
+  color:var(--ink);margin-bottom:6px;
+}
+.brand-tagline{font-size:13px;color:var(--ink2);line-height:1.5;margin-bottom:20px}
+.brand-valuation{
+  font-family:'DM Mono',monospace;
+  font-size:22px;font-weight:500;
+}
+.b-bobbie .brand-valuation{color:var(--bobbie)}
+.b-vuori  .brand-valuation{color:var(--vuori)}
+.b-ld     .brand-valuation{color:var(--ld)}
+.brand-val-label{font-size:11px;color:var(--ink3);margin-top:2px}
+
+/* ── MAIN CONTENT ── */
+.main{max-width:1100px;margin:0 auto;padding:0 48px 80px}
+
+/* ── BRAND PANEL ── */
+.panel{display:none;padding-top:56px}
+.panel.active{display:block}
+
+.panel-header{
+  display:grid;grid-template-columns:1fr auto;gap:40px;
+  padding-bottom:48px;border-bottom:1px solid var(--rule);
+  margin-bottom:48px;
+  align-items:start;
+}
+.panel-title{
+  font-family:'DM Serif Display',Georgia,serif;
+  font-size:2.2rem;letter-spacing:-.02em;line-height:1.2;
+  margin-bottom:16px;
+}
+.panel-body{font-size:15px;color:var(--ink2);line-height:1.8;max-width:600px}
+.panel-accent-line{
+  width:40px;height:3px;margin-bottom:16px;border-radius:2px;
+}
+.b-bobbie .panel-accent-line{background:var(--bobbie)}
+.b-vuori  .panel-accent-line{background:var(--vuori)}
+.b-ld     .panel-accent-line{background:var(--ld)}
+
+/* ── METRIC BARS ── */
+.metrics-section{margin-bottom:56px}
+.metrics-label{
+  font-family:'DM Mono',monospace;font-size:11px;
+  letter-spacing:1.5px;text-transform:uppercase;color:var(--ink3);
+  margin-bottom:24px;
+}
+.metric-row{
+  display:grid;grid-template-columns:180px 1fr 100px;
+  align-items:center;gap:20px;
+  padding:16px 0;border-top:1px solid var(--rule);
+}
+.metric-row:last-child{border-bottom:1px solid var(--rule)}
+.m-name{font-size:13px;color:var(--ink2)}
+.m-bar-track{height:6px;background:var(--rule);border-radius:3px;overflow:hidden}
+.m-bar-fill{height:100%;border-radius:3px;transition:width 1s cubic-bezier(.4,0,.2,1)}
+.b-bobbie .m-bar-fill{background:var(--bobbie)}
+.b-vuori  .m-bar-fill{background:var(--vuori)}
+.b-ld     .m-bar-fill{background:var(--ld)}
+.m-value{font-family:'DM Mono',monospace;font-size:14px;font-weight:500;text-align:right}
+
+/* ── TWO-COL DETAIL ── */
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);margin-bottom:56px}
+.detail-cell{background:var(--white);padding:32px}
+.detail-cell-label{
+  font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;
+  text-transform:uppercase;color:var(--ink3);margin-bottom:20px;
+}
+.detail-cell h4{font-size:15px;font-weight:500;margin-bottom:12px;color:var(--ink)}
+
+.pillar-item{
+  display:flex;align-items:center;gap:12px;
+  padding:10px 0;border-bottom:1px solid var(--rule);
+  font-size:13px;color:var(--ink2);
+}
+.pillar-item:last-child{border-bottom:none}
+.pi-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.pi-pct{
+  margin-left:auto;
+  font-family:'DM Mono',monospace;font-size:12px;font-weight:500;
+}
+.b-bobbie .pi-pct{color:var(--bobbie)}
+.b-vuori  .pi-pct{color:var(--vuori)}
+.b-ld     .pi-pct{color:var(--ld)}
+
+.platform-item{
+  padding:12px 0;border-bottom:1px solid var(--rule);
+  display:flex;align-items:center;gap:12px;
+}
+.platform-item:last-child{border-bottom:none}
+.pl-name{font-size:13px;font-weight:500;min-width:110px}
+.pl-role{font-size:12px;color:var(--ink3);flex:1}
+.pl-badge{
+  font-family:'DM Mono',monospace;font-size:10px;font-weight:500;
+  padding:3px 8px;border-radius:2px;
+  letter-spacing:.5px;text-transform:uppercase;
+}
+.pl-main{background:var(--ink);color:var(--white)}
+.pl-support{background:var(--rule);color:var(--ink2)}
+.pl-growth{border:1px solid var(--rule);color:var(--ink3);background:transparent}
+
+/* ── INSIGHT BOX ── */
+.insight-box{
+  border-left:3px solid;
+  padding:28px 32px;
+  margin-bottom:16px;
+  background:var(--white);
+}
+.b-bobbie .insight-box{border-color:var(--bobbie);background:var(--bobbie-light)}
+.b-vuori  .insight-box{border-color:var(--vuori);background:var(--vuori-light)}
+.b-ld     .insight-box{border-color:var(--ld);background:var(--ld-light)}
+.insight-box-label{
+  font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;
+  text-transform:uppercase;margin-bottom:16px;
+}
+.b-bobbie .insight-box-label{color:var(--bobbie)}
+.b-vuori  .insight-box-label{color:var(--vuori)}
+.b-ld     .insight-box-label{color:var(--ld)}
+.insight-list{list-style:none}
+.insight-list li{
+  font-size:14px;color:var(--ink2);line-height:1.7;
+  padding:6px 0;display:flex;gap:10px;
+}
+.insight-list li::before{content:'—';color:var(--ink3);flex-shrink:0}
+
+/* ── VALIDATION SECTION ── */
+.validation{
+  background:var(--ink);color:var(--white);
+  margin:80px -48px 0;padding:80px 48px;
+}
+.validation-inner{max-width:1004px;margin:0 auto}
+.v-eyebrow{
+  font-family:'DM Mono',monospace;font-size:11px;
+  letter-spacing:2px;text-transform:uppercase;
+  color:rgba(255,255,255,.4);margin-bottom:16px;
+  display:flex;align-items:center;gap:10px;
+}
+.v-eyebrow::before{
+  content:'';width:20px;height:1px;background:rgba(255,255,255,.4);
+}
+.v-title{
+  font-family:'DM Serif Display',Georgia,serif;
+  font-size:clamp(2rem,4vw,3.4rem);
+  letter-spacing:-.02em;line-height:1.1;
+  color:var(--white);margin-bottom:16px;
+}
+.v-sub{font-size:16px;color:rgba(255,255,255,.55);margin-bottom:56px;max-width:600px}
+.v-stats{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+  background:rgba(255,255,255,.08);margin-bottom:56px;
+}
+.v-stat{background:var(--ink);padding:32px 24px}
+.v-stat-num{
+  font-family:'DM Mono',monospace;
+  font-size:2.4rem;font-weight:500;
+  color:var(--white);line-height:1;margin-bottom:8px;
+}
+.v-stat-label{font-size:12px;color:rgba(255,255,255,.4);line-height:1.5}
+.proof-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.08)}
+.proof-cell{background:var(--ink);padding:28px 24px}
+.proof-source{
+  font-family:'DM Mono',monospace;font-size:10px;
+  letter-spacing:1px;text-transform:uppercase;
+  color:rgba(255,255,255,.3);margin-bottom:8px;
+}
+.proof-principle{font-size:14px;font-weight:500;color:var(--white);margin-bottom:8px;line-height:1.4}
+.proof-arrow{
+  font-size:12px;color:rgba(255,255,255,.3);
+  margin:12px 0 8px;padding-top:12px;
+  border-top:1px solid rgba(255,255,255,.08);
+}
+.proof-result{font-size:13px;color:rgba(255,255,255,.6);line-height:1.6}
+.proof-data{font-family:'DM Mono',monospace;font-size:13px;color:#A8F060;margin-top:6px}
+
+/* ── LAWS SECTION ── */
+.laws{padding:80px 48px;max-width:1100px;margin:0 auto}
+.laws-eyebrow{
+  font-family:'DM Mono',monospace;font-size:11px;
+  letter-spacing:2px;text-transform:uppercase;
+  color:var(--ink3);margin-bottom:16px;
+  display:flex;align-items:center;gap:10px;
+}
+.laws-eyebrow::before{content:'';width:20px;height:1px;background:var(--rule)}
+.laws-title{
+  font-family:'DM Serif Display',Georgia,serif;
+  font-size:2.4rem;letter-spacing:-.02em;
+  margin-bottom:48px;
+}
+.laws-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--rule);margin-bottom:48px}
+.law-cell{background:var(--white);padding:40px 36px}
+.law-index{
+  font-family:'DM Mono',monospace;font-size:11px;
+  color:var(--ink3);letter-spacing:1px;margin-bottom:16px;
+}
+.law-title{font-size:17px;font-weight:500;margin-bottom:10px;line-height:1.3}
+.law-body{font-size:14px;color:var(--ink2);line-height:1.7}
+
+/* ── COMPARE TABLE ── */
+.compare-wrap{background:var(--white);border:1px solid var(--rule);overflow:hidden;margin-bottom:0}
+.compare-table{width:100%;border-collapse:collapse;font-size:13px}
+.compare-table th{
+  padding:16px 20px;text-align:left;
+  font-family:'DM Mono',monospace;font-size:10px;
+  letter-spacing:1px;text-transform:uppercase;
+  color:var(--ink3);
+  background:var(--surface);
+  border-bottom:1px solid var(--rule);
+}
+.compare-table td{
+  padding:15px 20px;
+  border-bottom:1px solid var(--rule);
+  color:var(--ink2);vertical-align:top;
+}
+.compare-table td:first-child{font-weight:500;color:var(--ink)}
+.compare-table tr:last-child td{border-bottom:none}
+.col-b{border-left:3px solid var(--bobbie)}
+.col-v{border-left:3px solid var(--vuori)}
+.col-l{border-left:3px solid var(--ld)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:800px){
+  .hero,.brand-strip,.main{padding-left:24px;padding-right:24px}
+  .hero{grid-template-columns:1fr;gap:32px}
+  .brand-strip{grid-template-columns:1fr}
+  .panel-header{grid-template-columns:1fr}
+  .metric-row{grid-template-columns:130px 1fr 80px}
+  .detail-grid{grid-template-columns:1fr}
+  .v-stats{grid-template-columns:repeat(2,1fr)}
+  .proof-grid{grid-template-columns:1fr}
+  .laws-grid{grid-template-columns:1fr}
+  .validation{margin-left:-24px;margin-right:-24px;padding-left:24px;padding-right:24px}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <span class="nav-logo">Eric何振华 / Case Study</span>
+  <a href="/" class="nav-back">
+    <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 2L4 7l5 5"/></svg>
+    返回作品集
+  </a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div>
+    <div class="hero-kicker">Brand Analysis · 2024–2025</div>
+    <h1 class="hero-title">三个品牌，<br>一套<em>方法论</em></h1>
+    <p class="hero-body">Bobbie、Vuori、Liquid Death——三个不同品类的 DTC 品牌，用社交媒体打穿了各自被巨头垄断的市场。这是我的拆解笔记，以及在自己 TikTok 账号上的实战印证。</p>
+  </div>
+  <div class="hero-meta">
+    <div class="hero-meta-row">
+      <span class="meta-label">拆解品牌</span>
+      <span class="meta-val">3 个 DTC 标杆</span>
+    </div>
+    <div class="hero-meta-row">
+      <span class="meta-label">覆盖平台</span>
+      <span class="meta-val">TikTok · Instagram · YouTube</span>
+    </div>
+    <div class="hero-meta-row">
+      <span class="meta-label">分析维度</span>
+      <span class="meta-val">定位 / 内容 / 数据 / 方法论</span>
+    </div>
+    <div class="hero-meta-row">
+      <span class="meta-label">实战验证</span>
+      <span class="meta-val">290万播放 · $30K GMV</span>
+    </div>
+  </div>
+</div>
+
+<!-- BRAND IDENTITY STRIP -->
+<div class="brand-strip">
+  <div class="brand-col b-bobbie active" onclick="switchBrand('bobbie',this)">
+    <div class="brand-num">01</div>
+    <div class="brand-name">Bobbie</div>
+    <div class="brand-tagline">打破婴儿奶粉赛道<br>四十年的沉默</div>
+    <div class="brand-valuation">$1B+</div>
+    <div class="brand-val-label">估值</div>
+  </div>
+  <div class="brand-col b-vuori" onclick="switchBrand('vuori',this)">
+    <div class="brand-num">02</div>
+    <div class="brand-name">Vuori</div>
+    <div class="brand-tagline">把运动服做成<br>加州生活方式符号</div>
+    <div class="brand-valuation">$5.5B</div>
+    <div class="brand-val-label">估值</div>
+  </div>
+  <div class="brand-col b-ld" onclick="switchBrand('ld',this)">
+    <div class="brand-num">03</div>
+    <div class="brand-name">Liquid Death</div>
+    <div class="brand-tagline">把卖水公司<br>经营成喜剧公司</div>
+    <div class="brand-valuation">$1.4B</div>
+    <div class="brand-val-label">估值</div>
+  </div>
+</div>
+
+<!-- MAIN PANELS -->
+<div class="main">
+
+  <!-- ══ BOBBIE ══ -->
+  <div class="panel b-bobbie active" id="panel-bobbie">
+    <div class="panel-header">
+      <div>
+        <div class="panel-accent-line"></div>
+        <h2 class="panel-title">用"去污名化"运动<br>打穿巨头垄断的市场</h2>
+        <p class="panel-body">三大巨头垄断美国婴儿奶粉市场数十年。Bobbie 没有拼配方参数，而是把"配方奶妈妈"的社会污名变成战场——将商业问题升维成社会运动，成为近 40 年内第一个成功进入该市场的新品牌。</p>
+      </div>
+      <div style="padding-top:32px">
+        <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--ink3);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px">核心策略</div>
+        <div style="font-size:16px;font-weight:500;line-height:1.6;max-width:240px">价值观营销<br>社群运营<br>DTC 订阅闭环</div>
+      </div>
+    </div>
+
+    <div class="metrics-section">
+      <div class="metrics-label">关键数据</div>
+      <div class="metric-row">
+        <span class="m-name">首战役媒体曝光</span>
+        <div class="m-bar-track"><div class="m-bar-fill" style="width:92%"></div></div>
+        <span class="m-value">5亿+</span>
+      </div>
+      <div class="metric-row">
+        <span class="m-name">首季订阅增长</span>
+        <div class="m-bar-track"><div class="m-bar-fill" style="width:40%"></div></div>
+        <span class="m-value">+40%</span>
+      </div>
+      <div class="metric-row">
+        <span class="m-name">DTC 订阅占营收</span>
+        <div class="m-bar-track"><div class="m-bar-fill" style="width:70%"></div></div>
+        <span class="m-value">70%</span>
+      </div>
+      <div class="metric-row">
+        <span class="m-name">NPS 净推荐值</span>
+        <div class="m-bar-track"><div class="m-bar-fill" style="width:80%"></div></div>
+        <span class="m-value">80+</span>
+      </div>
+    </div>
+
+    <div class="detail-grid">
+      <div class="detail-cell">
+        <div class="detail-cell-label">Instagram 内容支柱</div>
+        <div class="pillar-item"><span class="pi-dot" style="background:var(--bobbie)"></span>父母真实故事 / UGC<span class="pi-pct">35%</span></div>
+        <div class="pillar-item"><span class="pi-dot" style="background:var(--bobbie);opacity:.7"></span>社会议题倡导<span class="pi-pct">25%</span></div>
+        <div class="pillar-item"><span class="pi-dot" style="background:var(--bobbie);opacity:.5"></span>育儿实用干货<span class="pi-pct">20%</span></div>
+        <div class="pillar-item"><span class="pi-dot" style="background:var(--bobbie);opacity:.3"></span>产品与品牌内容<span class="pi-pct">15%</span></div>
+        <div class="pillar-item"><span class="pi-dot" style="background:var(--ink3)"></span>公益慈善行动<span class="pi-pct">5%</span></div>
+      </div>
+      <div class="detail-cell">
+        <div class="detail-cell-label">平台分工策略</div>
+        <div class="platform-item"><span class="pl-name">Instagram</span><span class="pl-role">社群主战场，情感连接</span><span class="pl-badge pl-main">主战场</span></div>
+        <div class="platform-item"><span class="pl-name">TikTok</span><span class="pl-role">年轻父母科普内容</span><span class="pl-badge pl-support">协同</span></div>
+        <div class="platform-item"><span class="pl-name">YouTube</span><span class="pl-role">品牌宣言 / CEO 故事</span><span class="pl-badge pl-support">深度认知</span></div>
+        <div class="platform-item"><span class="pl-name">Facebook Ads</span><span class="pl-role">付费投放 / 成熟父母</span><span class="pl-badge pl-growth">付费</span></div>
+      </div>
+    </div>
+
+    <div class="insight-box">
+      <div class="insight-box-label">方法论提炼</div>
+      <ul class="insight-list">
+        <li>品类中隐形的社会评判，本身就是最大的市场机会——打破它，而不是绕开它</li>
+        <li>价值观营销必须有具体行动支撑：政策倡导、公益捐赠、合作方选择，缺一不可</li>
+        <li>客服是社媒运营的延伸——评论区如何回复，决定了"社群感"能否真正建立</li>
+        <li>真实 UGC 大于精美 Stock Photo——母婴用户对摆拍感极度敏感</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ══ VUORI ══ -->
+  <div class="panel b-vuori" id="panel-vuori">
+    <div class="panel-header">
+      <div>
+        <div class="panel-accent-line"></div>
+        <h2 class="panel-title">把运动品牌广告<br>拍成生活方式纪录片</h2>
+        <p class="panel-body">Lululemon 已牢牢占据女性瑜伽心智。Vuori 瞄准"男性的 Lululemon"空白，用"南加州海岸生活美学"替代了传统运动品牌的高强度叙事。2017 年起盈利，LTV:CAC 达 4:1 的顶级水平。</p>
+      </div>
+      <div style="padding-top:32px">
+        <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--ink3);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px">核心策略</div>
+        <div style="font-size:16px;font-weight:500;line-height:1.6;max-width:240px">生活方式美学<br>KOL 金字塔矩阵<br>品效合一投放</div>
+      </div>
+    </div>
+
+    <div class="metrics-section">
+      <div class="metrics-label">关键数据</div>
+      <div class="metric-row">
+        <span class="m-name">LTV : CAC 比例</span>
+        <div class="m-bar-track"><div class="m-bar-fill" style="width:88%"></div></div>
+        <span class="m-value">4 : 1</span>
+      </div>
+      <div class="metric-row">
+        <span class="m-name">DTC 占总营收</span>
+        <div class="m-bar-track"><div class="m-bar-fill" style="width:75%"></div></div>
+        <span class="m-value">75%</span>
+      </div>
+      <div class="metric-row">
+        <span class="m-name">客户留存率</span>
+        <div class="m-bar-track"><div class="m-bar-fill" style="width:65%"></div></div>
+        <span class="m-value">65%</span>
+      </div>
+      <div class="metric-row">
+        <span class="m-name">平均客单价</span>
+        <div class="m-bar-track"><div class="m-bar-fill" style="width:78%"></div></div>
+        <span class="m-value">$185</span>
+      </div>
+    </div>
+
+    <div class="detail-grid">
+      <div class="detail-cell">
+        <div class="detail-cell-label">视觉内容公式</div>
+        <div class="pillar-item"><span class="pi-dot" style="background:var(--vuori)"></span>真实人物 × 自然场景</div>
+        <div class="pillar-item"><span class="pi-dot" style="background:var(--vuori);opacity:.75"></span>产品自然嵌入（非主角）</div>
+        <div class="pillar-item"><span class="pi-dot" style="background:var(--vuori);opacity:.55"></span>极简文案，无硬广感</div>
+        <div class="pillar-item"><span class="pi-dot" style="background:var(--vuori);opacity:.35"></span>大量用户 UGC 二次创作</div>
+        <div class="pillar-item"><span class="pi-dot" style="background:var(--ink3)"></span>幕后 / 工艺 / 设计故事</div>
+      </div>
+      <div class="detail-cell">
+        <div class="detail-cell-label">平台分工策略</div>
+        <div class="platform-item"><span class="pl-name">Instagram</span><span class="pl-role">美学心智主战场</span><span class="pl-badge pl-main">主战场</span></div>
+        <div class="platform-item"><span class="pl-name">TikTok</span><span class="pl-role">年轻化 + 女性市场</span><span class="pl-badge pl-main">主战场</span></div>
+        <div class="platform-item"><span class="pl-name">YouTube</span><span class="pl-role">品牌片 / 创始人故事</span><span class="pl-badge pl-support">深度认知</span></div>
+        <div class="platform-item"><span class="pl-name">Meta Ads</span><span class="pl-role">精准再营销 + 转化</span><span class="pl-badge pl-growth">付费转化</span></div>
+      </div>
+    </div>
+
+    <div class="insight-box">
+      <div class="insight-box-label">方法论提炼</div>
+      <ul class="insight-list">
+        <li>创作者矩阵是基础设施：顶层专业背书 + 中层生活方式参考 + 底层 UGC，三层缺一不可</li>
+        <li>内容广告化、广告内容化——付费投放和自然内容几乎无法区分，ROAS 大幅提升</li>
+        <li>"反运动"的运动品牌——弱化运动表现、强化生活方式，打开远大于运动场景的市场</li>
+        <li>多平台分工要清晰：Instagram=心智 / TikTok=流量 / YouTube=认知 / Meta=转化</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ══ LIQUID DEATH ══ -->
+  <div class="panel b-ld" id="panel-ld">
+    <div class="panel-header">
+      <div>
+        <div class="panel-accent-line"></div>
+        <h2 class="panel-title">把水公司<br>做成喜剧制作公司</h2>
+        <p class="panel-body">卖水是最无聊的生意。创始人 Mike Cessario 来自 Netflix 创意团队，他的赌注是：如果健康饮品能有朋克摇滚的气质，用户会为之疯狂。结果：$1.4B 估值，1400 万社媒粉丝，6 万个零售网点。</p>
+      </div>
+      <div style="padding-top:32px">
+        <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--ink3);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px">核心策略</div>
+        <div style="font-size:16px;font-weight:500;line-height:1.6;max-width:240px">娱乐化内容<br>病毒式分享机制<br>亚文化社群</div>
+      </div>
+    </div>
+
+    <div class="metrics-section">
+      <div class="metrics-label">关键数据</div>
+      <div class="metric-row">
+        <span class="m-name">TikTok + IG 粉丝</span>
+        <div class="m-bar-track"><div class="m-bar-fill" style="width:100%"></div></div>
+        <span class="m-value">1400万</span>
+      </div>
+      <div class="metric-row">
+        <span class="m-name">2022 年营收</span>
+        <div class="m-bar-track"><div class="m-bar-fill" style="width:78%"></div></div>
+        <span class="m-value">$130M</span>
+      </div>
+      <div class="metric-row">
+        <span class="m-name">零售网点</span>
+        <div class="m-bar-track"><div class="m-bar-fill" style="width:85%"></div></div>
+        <span class="m-value">60,000+</span>
+      </div>
+      <div class="metric-row">
+        <span class="m-name">付费会员数</span>
+        <div class="m-bar-track"><div class="m-bar-fill" style="width:55%"></div></div>
+        <span class="m-value">10万+</span>
+      </div>
+    </div>
+
+    <div class="detail-grid">
+      <div class="detail-cell">
+        <div class="detail-cell-label">TikTok 内容类型</div>
+        <div class="pillar-item"><span class="pi-dot" style="background:var(--ld)"></span>Mock-Ad 恶搞广告</div>
+        <div class="pillar-item"><span class="pi-dot" style="background:var(--ld);opacity:.75"></span>荒诞情景喜剧短片</div>
+        <div class="pillar-item"><span class="pi-dot" style="background:var(--ld);opacity:.55"></span>黑色幽默 + 争议反转</div>
+        <div class="pillar-item"><span class="pi-dot" style="background:var(--ld);opacity:.35"></span>明星联名脱口秀</div>
+        <div class="pillar-item"><span class="pi-dot" style="background:var(--ink3)"></span>用户黑粉二次创作</div>
+      </div>
+      <div class="detail-cell">
+        <div class="detail-cell-label">平台分工策略</div>
+        <div class="platform-item"><span class="pl-name">TikTok</span><span class="pl-role">病毒视频发动机</span><span class="pl-badge pl-main">主战场</span></div>
+        <div class="platform-item"><span class="pl-name">Instagram</span><span class="pl-role">视觉沉淀 + 复用</span><span class="pl-badge pl-support">协同</span></div>
+        <div class="platform-item"><span class="pl-name">X (Twitter)</span><span class="pl-role">即时段子 + 追热点</span><span class="pl-badge pl-support">实时互动</span></div>
+        <div class="platform-item"><span class="pl-name">YouTube</span><span class="pl-role">Mockumentary 长视频</span><span class="pl-badge pl-growth">深度内容</span></div>
+      </div>
+    </div>
+
+    <div class="insight-box">
+      <div class="insight-box-label">方法论提炼</div>
+      <ul class="insight-list">
+        <li>每条内容发布前问一个问题：会被主动分享吗？不能分享直接推翻，这是算法红利的入口</li>
+        <li>Budget Haiku（小预算诗）——预算越紧反而逼出更聪明的创意，最简单的 idea 往往最易传播</li>
+        <li>把品牌争议变成内容素材——负面评论、误解、黑粉全是创意资产，不需要逃避</li>
+        <li>"内容先于产品"——用病毒视频验证市场，再做产品；这是 DTC 时代最聪明的 MVP 方式</li>
+      </ul>
+    </div>
+  </div>
+
+</div><!-- .main -->
+
+<!-- ── VALIDATION ── -->
+<div class="validation">
+  <div class="validation-inner">
+    <div class="v-eyebrow">实战印证 / My Proof of Work</div>
+    <h2 class="v-title">理论不够，<br>我用数据说话</h2>
+    <p class="v-sub">以上所有方法论，我都在自己操盘的 TikTok 账号上做了逐条验证。下面是真实结果。</p>
+    <div class="v-stats">
+      <div class="v-stat">
+        <div class="v-stat-num">290万</div>
+        <div class="v-stat-label">单条视频最高播放量</div>
+      </div>
+      <div class="v-stat">
+        <div class="v-stat-num">$30K</div>
+        <div class="v-stat-label">单月 GMV 峰值</div>
+      </div>
+      <div class="v-stat">
+        <div class="v-stat-num">50+</div>
+        <div class="v-stat-label">每月达人联络数</div>
+      </div>
+      <div class="v-stat">
+        <div class="v-stat-num">~100%</div>
+        <div class="v-stat-label">英区达人入驻率</div>
+      </div>
+    </div>
+    <div class="proof-grid">
+      <div class="proof-cell">
+        <div class="proof-source">来自 Liquid Death</div>
+        <div class="proof-principle">分享率优先原则</div>
+        <div class="proof-arrow">↓ 我的验证</div>
+        <div class="proof-result">每条视频策划阶段先问"会被分享吗"，不能被分享直接推翻重来。</div>
+        <div class="proof-data">爆款视频分享率是普通内容的 8 倍</div>
+      </div>
+      <div class="proof-cell">
+        <div class="proof-source">来自 Vuori</div>
+        <div class="proof-principle">达人矩阵分层策略</div>
+        <div class="proof-arrow">↓ 我的验证</div>
+        <div class="proof-result">不依赖单个大 V，构建中腰部垂直达人为主的联络 SOP。</div>
+        <div class="proof-data">英区达人成功率接近 100%，成本远低于头部合作</div>
+      </div>
+      <div class="proof-cell">
+        <div class="proof-source">来自 Bobbie</div>
+        <div class="proof-principle">真实优于精美</div>
+        <div class="proof-arrow">↓ 我的验证</div>
+        <div class="proof-result">产品视频不追求高制作，真实使用场景比 Studio 棚拍更有转化力。</div>
+        <div class="proof-data">手机拍摄的真实测评播放量是精修版的 2–3 倍</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── LAWS ── -->
+<div class="laws">
+  <div class="laws-eyebrow">Cross-Brand Takeaways</div>
+  <h2 class="laws-title">四条跨品类铁律</h2>
+  <div class="laws-grid">
+    <div class="law-cell">
+      <div class="law-index">01 / Identity</div>
+      <h3 class="law-title">不卖产品，卖身份认同</h3>
+      <p class="law-body">买 Bobbie = 不被定义的父母；买 Vuori = 有质感的生活；买 Liquid Death = 有趣不无聊的人。产品是载体，身份认同才是真正的购买动机。</p>
+    </div>
+    <div class="law-cell">
+      <div class="law-index">02 / Platform</div>
+      <h3 class="law-title">人格统一，形态各异</h3>
+      <p class="law-body">同一品牌在 TikTok 是喜剧短片、在 Instagram 是精美视觉、在 X 是段子。形态完全不同，但用户感知到的是同一个品牌——这才是品牌资产。</p>
+    </div>
+    <div class="law-cell">
+      <div class="law-index">03 / Community</div>
+      <h3 class="law-title">社群比粉丝数更值钱</h3>
+      <p class="law-body">Bobbie 的情感客服、Vuori 的达人矩阵、Liquid Death 的付费会员——三个品牌都把深度连接置于关注数之上。复购和口碑来自关系，不来自曝光。</p>
+    </div>
+    <div class="law-cell">
+      <div class="law-index">04 / Content</div>
+      <h3 class="law-title">内容能力是终极护城河</h3>
+      <p class="law-body">当付费流量越来越贵，自然内容的传播力成了最稀缺的资源。三个品牌都把内容生产当成核心能力来建设，而不是当成营销费用来管理。</p>
+    </div>
+  </div>
+
+  <div class="compare-wrap">
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th style="width:150px">维度</th>
+          <th class="col-b">Bobbie</th>
+          <th class="col-v">Vuori</th>
+          <th class="col-l">Liquid Death</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>核心情绪</td>
+          <td class="col-b">共鸣、被理解</td>
+          <td class="col-v">向往、归属</td>
+          <td class="col-l">大笑、爽感</td>
+        </tr>
+        <tr>
+          <td>KOL 策略</td>
+          <td class="col-b">几乎不投，靠真实用户</td>
+          <td class="col-v">金字塔矩阵</td>
+          <td class="col-l">中腰部 + 喜剧明星</td>
+        </tr>
+        <tr>
+          <td>内容逻辑</td>
+          <td class="col-b">"我们听见你了"</td>
+          <td class="col-v">"我们也这样生活"</td>
+          <td class="col-l">"我们一起整活"</td>
+        </tr>
+        <tr>
+          <td>付费 vs 自然</td>
+          <td class="col-b">自然流量为主</td>
+          <td class="col-v">精细付费（LTV:CAC=4:1）</td>
+          <td class="col-l">自然驱动 + 有限付费</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+function switchBrand(id, el) {
+  document.querySelectorAll('.brand-col').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('panel-' + id).classList.add('active');
+}
+</script>
+</body>
+</html>

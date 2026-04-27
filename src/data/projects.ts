@@ -9,6 +9,14 @@ export interface Project {
 
 export const projectData: Project[] = [
   {
+    id: 'dtc-case-study',
+    title: '三个品牌，一套方法论 (DTC Brand Teardown)',
+    description: '深度拆解 Bobbie、Vuori、Liquid Death 标杆 DTC 品牌营销策略。在自身操盘的 TikTok 账号做逐条验证，产出最高 290万播放量爆款视频及单月突破 $30,000 GMV 的转化业绩。',
+    image: '/case_study_cover.png',
+    tags: ['Brand Analysis', 'Social Media', 'Case Study'],
+    link: '/case-study-v2.html'
+  },
+  {
     id: 'shine-mango',
     title: 'Shine Mango (芒果 B2B 出海品牌)',
     description: '利用 Cursor AI 从 0 到 1 敏捷开发 "Shine Mango" 垂类独立站；并运用 Nano Banana 等前沿 AI 模型，精准产出欧美审美的高端营销海报与产品图。实现从 "极速建站" 到 "AI 视觉闭环" 的海外营销全链路落地。',
