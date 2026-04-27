@@ -11,7 +11,7 @@ export const projectData: Project[] = [
   {
     id: 'dtc-case-study',
     title: '三个品牌，一套方法论 (DTC Brand Teardown)',
-    description: '深度拆解 Bobbie、Vuori、Liquid Death 标杆 DTC 品牌营销策略。在自身操盘的 TikTok 账号做逐条验证，产出最高 290万播放量爆款视频及单月突破 $30,000 GMV 的转化业绩。',
+    description: '深度拆解 Bobbie、Vuori、Liquid Death 标杆 DTC 品牌营销策略。在自身操盘的 TikTok 账号做逐条验证，产出最高 300万播放量爆款视频及单月突破 $50,000 GMV 的转化业绩。',
     image: '/case_study_cover.png',
     tags: ['Brand Analysis', 'Social Media', 'Case Study'],
     link: '/case-study-v2.html'
@@ -27,7 +27,7 @@ export const projectData: Project[] = [
   {
     id: 'more-cases',
     title: '更多精选出海与 AI 实战案例',
-    description: '包含达人病毒式爆款营销、300+ 达人矩阵 SOP 搭建、TikTok 百万级精准获客与变现，以及前沿 AI Agent 自动化赋能业务的系列实战案例与真实业务数据复盘。',
+    description: '包含达人病毒式爆款营销、1000+ 达人矩阵 SOP 搭建、TikTok 百万级精准获客与变现，以及前沿 AI Agent 自动化赋能业务的系列实战案例与真实业务数据复盘。',
     image: '/tiktok_case.png',
     tags: ['Notion Portfolio', 'Social Media', 'Affiliate SOP', 'AI Automation'],
     link: 'https://www.notion.so/Eric-AI-3135591b6572801497eed064b1c47338'
